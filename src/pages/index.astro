@@ -9,6 +9,7 @@ import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloatingButton from '../components/WhatsAppFloatingButton.astro';
+import Divider from '../components/Divider.astro';
 ---
 
 <BaseLayout>
@@ -16,9 +17,13 @@ import WhatsAppFloatingButton from '../components/WhatsAppFloatingButton.astro';
   <main>
     <Hero />
     <Services />
+    <Divider from="var(--color-bg)" to="var(--color-bg-alt)" />
     <Projects />
+    <Divider from="var(--color-bg-alt)" to="var(--color-bg)" flip />
     <Process />
+    <Divider from="var(--color-bg)" to="var(--color-bg-alt)" />
     <About />
+    <Divider from="var(--color-bg-alt)" to="var(--color-bg)" flip />
     <Contact />
   </main>
   <Footer />

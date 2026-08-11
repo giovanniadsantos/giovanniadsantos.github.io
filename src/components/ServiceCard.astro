@@ -1,16 +1,28 @@
 ---
 import { whatsappHref } from '../data/site';
+import { serviceIcons } from '../data/service-icons';
 import type { Service } from '../data/services';
 
 interface Props {
   service: Service;
+  index?: number;
 }
 
-const { service } = Astro.props;
+const { service, index = 0 } = Astro.props;
 ---
 
-<article class="card service-card">
-  <span class="service-icon" aria-hidden="true">{service.icon}</span>
+<article class="service-card" data-reveal style={`--reveal-delay: ${index * 90}ms`}>
+  <span class="service-icon" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.75"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      set:html={serviceIcons[service.icon]}
+    />
+  </span>
   <h3>{service.title}</h3>
   <p>{service.description}</p>
   <a class="service-link" href={whatsappHref(service.whatsappMessage)} target="_blank" rel="noopener noreferrer">
@@ -20,14 +32,39 @@ const { service } = Astro.props;
 
 <style>
   .service-card {
-    padding: 2rem;
+    position: relative;
+    padding: 1.75rem 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
 
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.25rem;
+    height: 2px;
+    background: var(--color-primary);
+    transition: width 0.25s ease;
+  }
+
+  .service-card:hover::before {
+    width: 100%;
+  }
+
   .service-icon {
-    font-size: 2rem;
+    display: inline-flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--color-primary);
+    margin-top: 0.5rem;
+  }
+
+  .service-icon svg {
+    width: 100%;
+    height: 100%;
   }
 
   .service-card h3 {

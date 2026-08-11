@@ -1,0 +1,19 @@
+---
+interface Props {
+  from?: string;
+  to?: string;
+  flip?: boolean;
+}
+
+const { from = 'var(--color-bg)', to = 'var(--color-bg-alt)', flip = false } = Astro.props;
+const style = [`background: ${from};`, flip ? 'transform: scaleX(-1);' : ''].join(' ');
+---
+
+<div class="divider" style={style}>
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path
+      d="M0,32 C150,58 320,4 520,26 C740,50 880,6 1050,24 C1120,32 1160,30 1200,20 L1200,60 L0,60 Z"
+      fill={to}
+    ></path>
+  </svg>
+</div>

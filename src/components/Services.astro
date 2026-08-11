@@ -5,16 +5,38 @@ import ServiceCard from './ServiceCard.astro';
 
 <section id="servicos" class="section">
   <div class="container">
-    <div class="section-header center">
-      <span class="eyebrow">Serviços</span>
-      <h2>O que eu posso construir para você</h2>
-      <p>Do primeiro contato à entrega, cada projeto é pensado para resolver um problema real do seu negócio ou comunidade.</p>
+    <div class="section-header left" data-reveal>
+      <span class="section-kicker-number">01</span>
+      <div>
+        <span class="eyebrow">Serviços</span>
+        <h2>O que eu posso construir para você</h2>
+        <p>Do primeiro contato à entrega, cada projeto é pensado para resolver um problema real do seu negócio ou comunidade.</p>
+      </div>
     </div>
 
-    <div class="grid">
-      {services.map((service) => (
-        <ServiceCard service={service} />
+    <div class="grid services-grid">
+      {services.map((service, i) => (
+        <ServiceCard service={service} index={i} />
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .services-grid {
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .services-grid > :global(.service-card) {
+    border-left: 1px solid var(--color-border);
+    padding-left: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .services-grid > :global(.service-card) {
+      border-left: none;
+      padding-left: 0.5rem;
+    }
+  }
+</style>

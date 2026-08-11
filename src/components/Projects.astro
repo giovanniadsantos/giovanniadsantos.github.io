@@ -5,16 +5,40 @@ import ProjectCard from './ProjectCard.astro';
 
 <section id="projetos" class="section section-alt">
   <div class="container">
-    <div class="section-header center">
+    <div class="section-header center" data-reveal>
       <span class="eyebrow">Projetos</span>
       <h2>Alguns projetos que já coloquei no ar</h2>
       <p>Sites e sistemas reais, em uso hoje por comunidades e negócios.</p>
     </div>
 
-    <div class="grid">
-      {projects.map((project) => (
-        <ProjectCard project={project} />
+    <div class="grid projects-grid">
+      {projects.map((project, i) => (
+        <ProjectCard project={project} index={i} featured={i === 0} />
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .projects-grid > :global(.project-card:first-child) {
+    grid-column: span 2;
+  }
+
+  .projects-grid > :global(.project-card:first-child) .project-thumb {
+    aspect-ratio: 21 / 9;
+  }
+
+  @media (max-width: 760px) {
+    .projects-grid > :global(.project-card:first-child) {
+      grid-column: span 1;
+    }
+
+    .projects-grid > :global(.project-card:first-child) .project-thumb {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

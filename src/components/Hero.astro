@@ -6,9 +6,11 @@ import { whatsappHref } from '../data/site';
 
 <section id="top" class="hero">
   <div class="container hero-inner">
-    <div class="hero-copy">
+    <div class="hero-copy" data-reveal>
       <span class="eyebrow">Desenvolvimento web sob medida</span>
-      <h1>Sites e sistemas para o seu negócio ou comunidade</h1>
+      <h1>
+        Sites e sistemas para o seu <span class="highlight">negócio ou comunidade</span>
+      </h1>
       <p>
         Desenvolvo catálogos, sites institucionais e ferramentas personalizadas — do primeiro
         contato à entrega, com comunicação direta pelo WhatsApp.
@@ -21,8 +23,16 @@ import { whatsappHref } from '../data/site';
       </div>
     </div>
 
-    <div class="hero-photo">
-      <Image src={profile} alt="Foto de Giovanni Angelo" width={420} height={420} />
+    <div class="hero-photo" data-reveal style="--reveal-delay: 150ms">
+      <svg class="hero-blob" viewBox="0 0 400 400" aria-hidden="true">
+        <path
+          fill="var(--color-accent)"
+          d="M321,281Q289,362,201,368Q113,374,79,294Q45,214,101,142Q157,70,244,95Q331,120,347,201Q363,282,321,281Z"
+        ></path>
+      </svg>
+      <div class="hero-photo-frame">
+        <Image src={profile} alt="Foto de Giovanni Angelo" width={420} height={420} />
+      </div>
     </div>
   </div>
 </section>
@@ -30,17 +40,36 @@ import { whatsappHref } from '../data/site';
 <style>
   .hero {
     padding-block: clamp(3rem, 8vw, 6rem) clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
   }
 
   .hero-inner {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: 1.3fr 0.9fr;
     align-items: center;
     gap: clamp(2.5rem, 6vw, 4rem);
   }
 
   .hero-copy h1 {
     margin-block: 0.5rem 1.25rem;
+  }
+
+  .highlight {
+    position: relative;
+    display: inline-block;
+  }
+
+  .highlight::after {
+    content: '';
+    position: absolute;
+    left: -0.05em;
+    right: -0.05em;
+    bottom: -0.08em;
+    height: 0.28em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 12 Q 20 2 40 12 T 80 12 T 120 12 T 160 12 T 198 12' stroke='%23D98E4A' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: -1;
   }
 
   .hero-copy p {
@@ -56,10 +85,33 @@ import { whatsappHref } from '../data/site';
   }
 
   .hero-photo {
+    position: relative;
     justify-self: center;
   }
 
-  .hero-photo :global(img) {
+  .hero-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130%;
+    height: 130%;
+    transform: translate(-50%, -50%) rotate(8deg);
+    opacity: 0.35;
+    z-index: 0;
+  }
+
+  .hero-photo-frame {
+    position: relative;
+    z-index: 1;
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease;
+  }
+
+  .hero-photo:hover .hero-photo-frame {
+    transform: rotate(0deg);
+  }
+
+  .hero-photo-frame :global(img) {
     width: min(320px, 70vw);
     height: min(320px, 70vw);
     object-fit: cover;
