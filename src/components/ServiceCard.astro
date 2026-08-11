@@ -1,0 +1,47 @@
+---
+import { whatsappHref } from '../data/site';
+import type { Service } from '../data/services';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+---
+
+<article class="card service-card">
+  <span class="service-icon" aria-hidden="true">{service.icon}</span>
+  <h3>{service.title}</h3>
+  <p>{service.description}</p>
+  <a class="service-link" href={whatsappHref(service.whatsappMessage)} target="_blank" rel="noopener noreferrer">
+    Falar sobre este serviço →
+  </a>
+</article>
+
+<style>
+  .service-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .service-icon {
+    font-size: 2rem;
+  }
+
+  .service-card h3 {
+    margin-top: 0.25rem;
+  }
+
+  .service-link {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .service-link:hover {
+    color: var(--color-primary-dark);
+  }
+</style>

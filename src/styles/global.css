@@ -1,0 +1,236 @@
+/* ---------- Design tokens ---------- */
+:root {
+  /* Warm, human palette */
+  --color-bg: #fbf6ef;
+  --color-bg-alt: #f3e9da;
+  --color-surface: #ffffff;
+  --color-text: #3a2e27;
+  --color-text-muted: #6b5d53;
+
+  --color-primary: #c1622d;
+  --color-primary-dark: #9c4c21;
+  --color-accent: #d98e4a;
+  --color-secondary: #6e8b6b;
+
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+
+  --color-border: #e7d9c6;
+
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 8px 24px rgba(58, 46, 39, 0.08);
+  --shadow-lift: 0 16px 40px rgba(58, 46, 39, 0.14);
+
+  --container-width: 1120px;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+  margin: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Base ---------- */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+  font-weight: 500;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+}
+
+h3 {
+  font-size: 1.375rem;
+}
+
+p {
+  color: var(--color-text-muted);
+}
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.section {
+  padding-block: clamp(3.5rem, 8vw, 6.5rem);
+}
+
+.section-alt {
+  background: var(--color-bg-alt);
+}
+
+.section-header {
+  max-width: 640px;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.section-header.center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.section-header p {
+  margin-top: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.75rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+  background: var(--color-whatsapp);
+  color: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-whatsapp:hover {
+  background: var(--color-whatsapp-dark);
+  box-shadow: var(--shadow-lift);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-sm {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-alt);
+  color: var(--color-primary-dark);
+}
+
+/* ---------- Utility ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

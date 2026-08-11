@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://giovanniangelo.com.br/sitemap-index.xml

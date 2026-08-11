@@ -1,0 +1,68 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accentTo})`;
+---
+
+<article class="card project-card">
+  <a class="project-thumb" href={project.url} target="_blank" rel="noopener noreferrer" style={`background-image: ${gradient}`}>
+    <span class="project-thumb-name">{project.name}</span>
+  </a>
+  <div class="project-body">
+    <span class="tag">{project.category}</span>
+    <h3>{project.name}</h3>
+    <p>{project.tagline}</p>
+    <a class="project-link" href={project.url} target="_blank" rel="noopener noreferrer">
+      Visitar site →
+    </a>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 10;
+  }
+
+  .project-thumb-name {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .project-body {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .project-body h3 {
+    margin-top: 0.5rem;
+  }
+
+  .project-link {
+    margin-top: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .project-link:hover {
+    color: var(--color-primary-dark);
+  }
+</style>

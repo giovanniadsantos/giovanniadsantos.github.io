@@ -1,0 +1,65 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Conversa inicial',
+    description: 'Você me chama no WhatsApp e me conta o que precisa. Sem burocracia.',
+  },
+  {
+    number: '02',
+    title: 'Proposta e prazo',
+    description: 'Você recebe um escopo claro e um prazo realista, sem letras miúdas.',
+  },
+  {
+    number: '03',
+    title: 'Desenvolvimento',
+    description: 'Eu construo o site ou sistema, com atualizações periódicas sobre o andamento.',
+  },
+  {
+    number: '04',
+    title: 'Entrega e suporte',
+    description: 'Seu projeto vai ao ar, e eu continuo por perto para ajustes e suporte.',
+  },
+];
+---
+
+<section id="processo" class="section">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">Como funciona</span>
+      <h2>Um processo simples, do início ao fim</h2>
+    </div>
+
+    <div class="grid process-grid">
+      {steps.map((step) => (
+        <div class="process-step">
+          <span class="process-number">{step.number}</span>
+          <h3>{step.title}</h3>
+          <p>{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .process-step {
+    padding: 1.5rem;
+  }
+
+  .process-number {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step h3 {
+    margin-bottom: 0.5rem;
+  }
+</style>

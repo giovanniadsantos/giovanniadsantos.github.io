@@ -1,0 +1,69 @@
+---
+const traits = [
+  'Banco de Dados (7 anos de experiência)',
+  'Gestão de Projetos Ágeis',
+  'Liderança de Equipes Técnicas',
+  'Comunicação Clara',
+  'Entrega Confiável',
+];
+---
+
+<section id="sobre" class="section section-alt">
+  <div class="container about-inner">
+    <div>
+      <span class="eyebrow">Sobre</span>
+      <h2>Quem está por trás do código</h2>
+      <p>
+        Formado em Sistemas de Informação, comecei minha carreira como consultor PL-SQL na equipe
+        de dados da TIM Live, no Rio de Janeiro. Em 2014 fui aprovado em 2º lugar em um concurso
+        público e atuei como Administrador de Dados até janeiro de 2020, sempre próximo de times
+        de desenvolvimento.
+      </p>
+      <p>
+        Hoje sou Coordenador de Sistemas e Gerente de Projetos Ágeis na Defensoria Pública do Rio
+        de Janeiro, liderando times de dados e desenvolvimento — e seguindo sempre em busca de
+        novas tecnologias para entregar projetos melhores, dentro e fora do meu trabalho.
+      </p>
+    </div>
+
+    <ul class="traits">
+      {traits.map((trait) => (
+        <li>{trait}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .about-inner p {
+    margin-top: 1rem;
+  }
+
+  .traits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .traits li {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 780px) {
+    .about-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import { whatsappHref } from '../data/site';
+---
+
+<section id="contato" class="section contact">
+  <div class="container contact-inner">
+    <span class="eyebrow">Contato</span>
+    <h2>Vamos conversar sobre o seu projeto?</h2>
+    <p>
+      Me chame no WhatsApp e me conte a sua ideia — respondo rápido e sem compromisso.
+    </p>
+    <a class="btn btn-whatsapp" href={whatsappHref()} target="_blank" rel="noopener noreferrer">
+      Falar no WhatsApp
+    </a>
+  </div>
+</section>
+
+<style>
+  .contact-inner {
+    text-align: center;
+    max-width: 620px;
+  }
+
+  .contact-inner h2 {
+    margin-block: 0.75rem 1rem;
+  }
+
+  .contact-inner p {
+    font-size: 1.1rem;
+    margin-inline: auto;
+  }
+
+  .contact-inner .btn {
+    margin-top: 2rem;
+  }
+</style>
