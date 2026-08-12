@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Project } from '../data/projects';
 
 interface Props {
@@ -12,8 +13,12 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
 ---
 
 <article class="card project-card" data-reveal style={`--reveal-delay: ${index * 110}ms`}>
-  <a class="project-thumb" href={project.url} target="_blank" rel="noopener noreferrer" style={`background-image: ${gradient}`}>
-    <span class="project-thumb-name">{project.name}</span>
+  <a class="project-thumb" href={project.url} target="_blank" rel="noopener noreferrer" style={!project.image ? `background-image: ${gradient}` : undefined}>
+    {project.image ? (
+      <Image class="project-thumb-image" src={project.image} alt={`Captura de tela do site ${project.name}`} width={840} height={500} />
+    ) : (
+      <span class="project-thumb-name">{project.name}</span>
+    )}
     {featured && <span class="project-featured-tag">Destaque</span>}
   </a>
   <div class="project-body">
@@ -39,15 +44,30 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
     align-items: center;
     justify-content: center;
     aspect-ratio: 16 / 10;
+    overflow: hidden;
   }
 
-  .project-thumb::after {
+  .project-thumb:not(:has(.project-thumb-image))::after {
     content: '';
     position: absolute;
     inset: 0;
     opacity: 0.15;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .project-thumb-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.4s ease;
+  }
+
+  .project-thumb:hover .project-thumb-image {
+    transform: scale(1.03);
   }
 
   .project-thumb-name {
