@@ -24,7 +24,7 @@ export const services: Service[] = [
     icon: 'tools',
     title: 'Sistemas e ferramentas sob medida',
     description:
-      'Aplicações para organizar processos internos: agendamentos, fluxos de atendimento, gestão de atividades.',
+      'Ferramentas para organizar processos internos: agendamentos, atendimento, gestão de atividades.',
     whatsappMessage: 'Olá Giovanni, preciso de um sistema ou ferramenta sob medida para o meu negócio.',
   },
   {
