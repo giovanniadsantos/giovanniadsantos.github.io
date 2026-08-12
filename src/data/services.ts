@@ -10,7 +10,7 @@ export const services: Service[] = [
     icon: 'community',
     title: 'Sites institucionais e para comunidades',
     description:
-      'Presença online para igrejas, ministérios e organizações que precisam se conectar com sua comunidade.',
+      'Presença online para igrejas, ministérios e organizações que querem se conectar melhor com sua comunidade.',
     whatsappMessage: 'Olá Giovanni, tenho interesse em um site institucional ou para minha comunidade.',
   },
   {
