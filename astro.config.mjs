@@ -3,5 +3,9 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://giovanniangelo.com.br',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      lastmod: new Date(),
+    }),
+  ],
 });

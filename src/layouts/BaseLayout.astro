@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { site, whatsapp } from '../data/site';
 
 interface Props {
   title?: string;
@@ -7,11 +8,38 @@ interface Props {
 }
 
 const {
-  title = 'Giovanni Angelo — Sites e sistemas sob medida',
-  description = 'Desenvolvo sites institucionais, catálogos com venda via WhatsApp e sistemas sob medida para o seu negócio ou comunidade.',
+  title = 'Giovanni Angelo — Desenvolvedor Web no Rio de Janeiro',
+  description = 'Desenvolvo sites institucionais, catálogos com venda no WhatsApp e sistemas sob medida. Baseado no Rio, atendo remotamente todo o Brasil. Fale no WhatsApp.',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.name,
+  description: 'Desenvolvimento de sites institucionais, catálogos com venda via WhatsApp e sistemas sob medida para negócios e comunidades.',
+  url: 'https://giovanniangelo.com.br',
+  image: 'https://giovanniangelo.com.br/og-image.jpg',
+  telephone: `+${whatsapp.number}`,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Rio de Janeiro',
+    addressRegion: 'RJ',
+    addressCountry: 'BR',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'Brasil',
+  },
+  founder: {
+    '@type': 'Person',
+    name: site.name,
+    sameAs: [site.social.linkedin, site.social.github, site.social.instagram],
+  },
+  sameAs: [site.social.linkedin, site.social.github, site.social.instagram],
+};
 ---
 
 <!doctype html>
@@ -44,6 +72,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
     <slot />
