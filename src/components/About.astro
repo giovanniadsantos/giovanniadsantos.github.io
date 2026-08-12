@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import profile from '../assets/images/profile.png';
+
 const traits = [
   '7 Anos de Experiência com Banco de Dados',
   'Gestão de Projetos Ágeis',
@@ -11,20 +14,25 @@ const traits = [
 <section id="sobre" class="section section-alt">
   <div class="container about-inner">
     <div class="about-copy" data-reveal>
+      <div class="about-photo">
+        <Image src={profile} alt="Foto de Giovanni Angelo" width={160} height={160} />
+      </div>
       <span class="eyebrow">Sobre</span>
       <h2>Quem está por trás do código</h2>
-      <span class="quote-mark" aria-hidden="true">“</span>
-      <p>
-        Formado em Sistemas de Informação, comecei minha carreira como consultor PL-SQL na equipe
-        de dados da TIM Live, no Rio de Janeiro. Em 2014 fui aprovado em 2º lugar em um concurso
-        público e atuei como Administrador de Dados até janeiro de 2020, trabalhando lado a lado
-        com times de desenvolvimento.
-      </p>
-      <p>
-        Hoje sou Coordenador de Sistemas e Gerente de Projetos Ágeis na Defensoria Pública do Rio
-        de Janeiro, liderando times de dados e desenvolvimento — e sempre atualizado com novas
-        tecnologias para entregar projetos cada vez melhores.
-      </p>
+      <div class="about-text">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <p>
+          Formado em Sistemas de Informação, comecei minha carreira como consultor PL-SQL na equipe
+          de dados da TIM Live, no Rio de Janeiro. Em 2014 fui aprovado em 2º lugar em um concurso
+          público e atuei como Administrador de Dados até janeiro de 2020, trabalhando lado a lado
+          com times de desenvolvimento.
+        </p>
+        <p>
+          Hoje sou Coordenador de Sistemas e Gerente de Projetos Ágeis na Defensoria Pública do Rio
+          de Janeiro, liderando times de dados e desenvolvimento — e sempre atualizado com novas
+          tecnologias para entregar projetos cada vez melhores.
+        </p>
+      </div>
     </div>
 
     <div class="traits-wrap" data-reveal style="--reveal-delay: 150ms">
@@ -52,6 +60,28 @@ const traits = [
   }
 
   .about-copy {
+    position: relative;
+  }
+
+  .about-photo {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid var(--color-surface);
+    box-shadow: var(--shadow-lift);
+    transform: rotate(-4deg);
+    margin-bottom: 1.75rem;
+  }
+
+  .about-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-text {
     position: relative;
   }
 
