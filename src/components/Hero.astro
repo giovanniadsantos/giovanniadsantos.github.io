@@ -25,7 +25,7 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
   </svg>
 
   <div class="container hero-inner">
-    <div class="hero-copy" data-reveal>
+    <div class="hero-copy hero-enter">
       <span class="eyebrow">Desenvolvimento web sob medida</span>
       <h1>
         Sem enrolação: sites e sistemas para o seu <span class="highlight">negócio ou comunidade</span>
@@ -43,7 +43,7 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     </div>
 
     {showcaseProjects.length > 0 && (
-      <div class="hero-showcase" data-reveal style="--reveal-delay: 160ms">
+      <div class="hero-showcase hero-enter" style="--enter-delay: 160ms">
         <span class="showcase-badge">Projetos reais no ar</span>
         <div class="browser-frame">
           <div class="browser-bar">
@@ -147,25 +147,32 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     overflow: hidden;
   }
 
+  /* Blurred so the shapes read as atmosphere. Previously they were
+     crisp-edged and cropped by the section, which turned them into
+     hard-edged half-circles pinned to the viewport edges. */
   .hero-blob {
     position: absolute;
     z-index: 0;
     opacity: 0.16;
+    filter: blur(28px);
   }
 
   .hero-blob-a {
-    width: 420px;
-    height: 420px;
-    top: -120px;
-    right: -100px;
+    width: 380px;
+    height: 380px;
+    top: -60px;
+    right: -40px;
   }
 
+  /* Kept clear of the section's bottom edge: the blur softens the sides
+     but `overflow: hidden` would still slice a hard horizontal line
+     across it if the shape reached the boundary. */
   .hero-blob-b {
-    width: 320px;
-    height: 320px;
-    bottom: -140px;
-    left: -100px;
-    opacity: 0.12;
+    width: 300px;
+    height: 300px;
+    bottom: 30px;
+    left: -70px;
+    opacity: 0.14;
   }
 
   .hero-inner {
@@ -174,6 +181,33 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     display: flex;
     flex-direction: column;
     gap: clamp(2.5rem, 6vw, 3.5rem);
+  }
+
+  /* The hero is above the fold, so it animates on load instead of using
+     the scroll-reveal observer: the <h1> is the LCP element and must
+     not wait on JS to become visible (and must still render if JS never
+     runs). The animation starts from opacity 0 but is driven purely by
+     CSS, so it begins at first paint. */
+  .hero-enter {
+    animation: hero-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--enter-delay, 0ms);
+  }
+
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-enter {
+      animation: none;
+    }
   }
 
   .hero-copy {
@@ -186,22 +220,20 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     margin-block: 0.5rem 1.25rem;
   }
 
+  /* Painted as a background on the inline run itself, with
+     box-decoration-break:clone, so every wrapped line gets its own
+     stroke sized to that line. As an absolutely positioned ::after on
+     an inline-block it drew one bar the width of the whole box, which
+     overshot the last line by ~235px whenever the phrase wrapped. */
   .highlight {
-    position: relative;
-    display: inline-block;
-  }
-
-  .highlight::after {
-    content: '';
-    position: absolute;
-    left: -0.05em;
-    right: -0.05em;
-    bottom: -0.08em;
-    height: 0.28em;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 12 Q 20 2 40 12 T 80 12 T 120 12 T 160 12 T 198 12' stroke='%23D98E4A' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    display: inline;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    background-image: var(--squiggle);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    z-index: -1;
+    background-position: 0 100%;
+    background-size: 100% 0.26em;
+    padding-bottom: 0.1em;
   }
 
   .hero-copy p {
@@ -241,8 +273,8 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     left: 1.5rem;
     z-index: 3;
     transform: rotate(-4deg);
-    background: var(--color-primary);
-    color: #ffffff;
+    background: var(--color-badge-bg);
+    color: var(--color-badge-text);
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.06em;
@@ -338,6 +370,9 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     object-fit: cover;
     object-position: top;
     opacity: 0;
+    /* Screenshots of light-themed sites; dimmed on the dark palette so
+       they don't glare. See --shot-dim in global.css. */
+    filter: var(--shot-dim, none);
     transition: opacity 1s ease;
   }
 
@@ -398,7 +433,7 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
     }
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 940px) {
     .hero-inner {
       flex-direction: row;
       align-items: center;

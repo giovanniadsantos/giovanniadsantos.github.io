@@ -80,6 +80,10 @@ const structuredData = {
 
     <script is:inline>
       (function () {
+        // Marks that scripting is available, so the scroll-reveal rules
+        // may hide their targets. Set before first paint so there is no
+        // flash of content that then disappears.
+        document.documentElement.classList.add('js');
         try {
           var stored = localStorage.getItem('theme');
           if (stored === 'dark' || stored === 'light') {
