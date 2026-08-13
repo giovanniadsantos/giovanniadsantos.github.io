@@ -16,6 +16,7 @@
   --color-whatsapp-dark: #1da851;
 
   --color-border: #e7d9c6;
+  --color-header-bg: rgba(251, 246, 239, 0.9);
 
   --font-heading: 'Fraunces', Georgia, serif;
   --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -29,7 +30,57 @@
   --shadow-lift: 0 16px 40px rgba(58, 46, 39, 0.14);
 
   --container-width: 1120px;
+
+  color-scheme: light;
 }
+
+/* Dark palette: same warm, handcrafted character, inverted luminance.
+   Applies automatically by system preference, or explicitly via
+   [data-theme] once the visitor picks a side with the toggle. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #211a15;
+    --color-bg-alt: #2b221b;
+    --color-surface: #322822;
+    --color-text: #f3ecdf;
+    --color-text-muted: #c7b6a3;
+
+    --color-primary: #e2874a;
+    --color-primary-dark: #f0a868;
+    --color-accent: #f2b877;
+    --color-secondary: #9dbd97;
+
+    --color-border: #4a3b2e;
+    --color-header-bg: rgba(33, 26, 21, 0.85);
+
+    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lift: 0 18px 44px rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #211a15;
+  --color-bg-alt: #2b221b;
+  --color-surface: #322822;
+  --color-text: #f3ecdf;
+  --color-text-muted: #c7b6a3;
+
+  --color-primary: #e2874a;
+  --color-primary-dark: #f0a868;
+  --color-accent: #f2b877;
+  --color-secondary: #9dbd97;
+
+  --color-border: #4a3b2e;
+  --color-header-bg: rgba(33, 26, 21, 0.85);
+
+  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 18px 44px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
 
 /* ---------- Reset ---------- */
 *,
@@ -83,9 +134,13 @@ body {
   font-size: 1.0625rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
-/* Subtle paper-grain atmosphere over the whole page */
+/* Subtle paper-grain atmosphere over the whole page.
+   Multiply reads as texture on a light ground; on the dark palette
+   it would just vanish into the near-black background, so it flips
+   to a soft-light speckle there instead. */
 body::before {
   content: '';
   position: fixed;
@@ -95,6 +150,18 @@ body::before {
   opacity: 0.035;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) body::before {
+    opacity: 0.05;
+    mix-blend-mode: soft-light;
+  }
+}
+
+:root[data-theme='dark'] body::before {
+  opacity: 0.05;
+  mix-blend-mode: soft-light;
 }
 
 body > * {

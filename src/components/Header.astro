@@ -14,23 +14,53 @@ const navLinks = [
   <div class="container header-inner">
     <a href="#top" class="wordmark">Giovanni Angelo</a>
 
-    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
-      <span class="visually-hidden">Abrir menu</span>
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-    </button>
+    <div class="header-right">
+      <nav class="site-nav" id="site-nav">
+        <ul>
+          {navLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+        <a class="btn btn-whatsapp btn-sm" href={whatsappHref()} target="_blank" rel="noopener noreferrer">
+          Falar no WhatsApp
+        </a>
+      </nav>
 
-    <nav class="site-nav" id="site-nav">
-      <ul>
-        {navLinks.map((link) => (
-          <li><a href={link.href}>{link.label}</a></li>
-        ))}
-      </ul>
-      <a class="btn btn-whatsapp btn-sm" href={whatsappHref()} target="_blank" rel="noopener noreferrer">
-        Falar no WhatsApp
-      </a>
-    </nav>
+      <button
+        type="button"
+        class="theme-toggle"
+        id="theme-toggle"
+        aria-label="Alternar entre tema claro e escuro"
+        aria-pressed="false"
+      >
+        <svg class="theme-toggle-icon theme-toggle-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8" />
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 2.5v2.4" />
+            <path d="M12 19.1v2.4" />
+            <path d="M4.4 4.4l1.7 1.7" />
+            <path d="M17.9 17.9l1.7 1.7" />
+            <path d="M2.5 12h2.4" />
+            <path d="M19.1 12h2.4" />
+            <path d="M4.4 19.6l1.7-1.7" />
+            <path d="M17.9 6.1l1.7-1.7" />
+          </g>
+        </svg>
+        <svg class="theme-toggle-icon theme-toggle-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M20.4 14.7A8.6 8.6 0 0 1 9.3 3.6a.75.75 0 0 0-.94-.98A9.6 9.6 0 1 0 21.38 15.6a.75.75 0 0 0-.98-.9Z"
+          />
+        </svg>
+      </button>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span class="visually-hidden">Abrir menu</span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -39,9 +69,10 @@ const navLinks = [
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(251, 246, 239, 0.9);
+    background: var(--color-header-bg);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.35s ease, border-color 0.35s ease;
   }
 
   .header-inner {
@@ -56,6 +87,74 @@ const navLinks = [
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  /* ---------- Theme toggle ---------- */
+  .theme-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-primary);
+  }
+
+  .theme-toggle-icon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    transition: opacity 0.35s ease, transform 0.5s ease;
+  }
+
+  .theme-toggle-sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .theme-toggle-moon {
+    opacity: 0;
+    transform: rotate(-60deg) scale(0.5);
+  }
+
+  :global([data-theme='dark']) .theme-toggle-sun {
+    opacity: 0;
+    transform: rotate(60deg) scale(0.5);
+  }
+
+  :global([data-theme='dark']) .theme-toggle-moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .theme-toggle-sun {
+      opacity: 0;
+      transform: rotate(60deg) scale(0.5);
+    }
+
+    :global(:root:not([data-theme='light'])) .theme-toggle-moon {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
   }
 
   .nav-toggle {
@@ -112,6 +211,7 @@ const navLinks = [
       border-bottom: 1px solid var(--color-border);
       padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
       display: none;
+      transition: background-color 0.35s ease, border-color 0.35s ease;
     }
 
     .site-nav.is-open {
@@ -143,5 +243,34 @@ const navLinks = [
       nav.classList.remove('is-open');
       toggle?.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+
+  const currentTheme = (): 'light' | 'dark' => {
+    const explicit = root.getAttribute('data-theme');
+    if (explicit === 'dark' || explicit === 'light') return explicit;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const syncPressedState = () => {
+    themeToggle?.setAttribute('aria-pressed', String(currentTheme() === 'dark'));
+  };
+
+  const applyTheme = (theme: 'light' | 'dark') => {
+    root.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      /* private browsing or storage disabled — theme just won't persist */
+    }
+    syncPressedState();
+  };
+
+  syncPressedState();
+
+  themeToggle?.addEventListener('click', () => {
+    applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
   });
 </script>

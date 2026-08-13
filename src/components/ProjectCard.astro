@@ -89,8 +89,12 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
     text-transform: uppercase;
     padding: 0.35rem 0.8rem;
     border-radius: var(--radius-pill);
+    /* Always a light chip over the screenshot/gradient thumbnail, in
+       both themes — so its text stays a fixed dark terracotta rather
+       than the theme-aware --color-primary-dark (which turns light
+       in dark mode and would disappear against this white pill). */
     background: rgba(255, 255, 255, 0.85);
-    color: var(--color-primary-dark);
+    color: #9c4c21;
   }
 
   .project-body {

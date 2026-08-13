@@ -74,6 +74,22 @@ const structuredData = {
     />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
+
+    <meta name="theme-color" content="#fbf6ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#211a15" media="(prefers-color-scheme: dark)" />
+
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'dark' || stored === 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {
+          /* private browsing or storage disabled — falls back to the OS preference */
+        }
+      })();
+    </script>
   </head>
   <body>
     <slot />
