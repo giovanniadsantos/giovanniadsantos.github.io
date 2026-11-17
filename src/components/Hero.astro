@@ -51,10 +51,14 @@ const stats = [
         <span>Desenvolvimento web sob medida</span>
       </span>
 
+      {/* Os {' '} são obrigatórios: o compilador remove o espaço entre
+          os <span>, e sem eles o texto acessível do H1 sai colado
+          ("sistemaspara o seunegócio"), justamente sobre a frase
+          comercial. Visualmente nada muda, porque cada span é block. */}
       <h1>
-        <span class="anim-assentar" style="--anim-delay: 420ms">Sem enrolação:</span>
-        <span class="anim-assentar" style="--anim-delay: 500ms">sites e sistemas</span>
-        <span class="anim-assentar" style="--anim-delay: 580ms">para o seu</span>
+        <span class="anim-assentar" style="--anim-delay: 420ms">Sem enrolação:</span>{' '}
+        <span class="anim-assentar" style="--anim-delay: 500ms">sites e sistemas</span>{' '}
+        <span class="anim-assentar" style="--anim-delay: 580ms">para o seu</span>{' '}
         <span class="anim-assentar" style="--anim-delay: 660ms">
           <span class="highlight">negócio ou comunidade</span>
         </span>
@@ -168,15 +172,50 @@ const stats = [
       if (urlDisplay) urlDisplay.textContent = slides[current]?.dataset.host ?? '';
     };
 
-    const stop = () => timer && clearInterval(timer);
-    const start = () => {
-      if (prefersReduced) return;
-      stop();
-      timer = setInterval(() => show(current + 1), 4200);
+    const INTERVALO = 4200;
+    const GATILHOS = ['pointerdown', 'keydown', 'wheel', 'touchstart'];
+
+    /* A rotação só começa depois da primeira interação do visitante.
+       Cada slide novo é um candidato a Largest Contentful Paint, e o
+       Chrome só encerra essa medição na primeira interação — então
+       qualquer troca antes disso entra na métrica. Medido nesta página:
+       girando desde o início o LCP ia a 5,3s; com um atraso fixo de 9s
+       chegava a 13,6s para quem não interagia (a troca caía depois da
+       espera, e contava do mesmo jeito). Atrelado à interação, o LCP
+       fica em ~0,7s, e quem rola a página continua vendo o carrossel. */
+    let liberado = false;
+
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = undefined;
     };
+
+    const girar = () => {
+      stop();
+      timer = setInterval(() => show(current + 1), INTERVALO);
+    };
+
+    const start = () => {
+      if (prefersReduced || !liberado) return;
+      girar();
+    };
+
+    const liberar = () => {
+      if (liberado || prefersReduced) return;
+      liberado = true;
+      GATILHOS.forEach((evento) => window.removeEventListener(evento, liberar));
+      if (!document.hidden) girar();
+    };
+
+    if (!prefersReduced) {
+      GATILHOS.forEach((evento) =>
+        window.addEventListener(evento, liberar, { passive: true })
+      );
+    }
 
     dots.forEach((dot, i) => {
       dot.addEventListener('click', () => {
+        liberar();
         show(i);
         start();
       });
@@ -187,8 +226,6 @@ const stats = [
     root.addEventListener('focusin', stop);
     root.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-
-    start();
   });
 
   /* ---- números travando em leitura ----

@@ -20,21 +20,27 @@ const base = index * 80;
     aria-hidden="true"
   >
   </div>
-  <a
-    class="service-link"
-    href={whatsappHref(service.whatsappMessage)}
-    target="_blank"
-    rel="noopener noreferrer"
-    data-reveal
-    style={`--reveal-delay: ${base + 40}ms`}
-  >
-    <span class="service-number">{number}</span>
-    <span class="service-body">
-      <span class="service-title">{service.title}</span>
-      <span class="service-desc">{service.description}</span>
-    </span>
+  {/* O link vive no <h3> para que o título volte à hierarquia de
+      cabeçalhos e o texto âncora seja só o nome do serviço; o ::after
+      dele se estica por cima da linha toda, então a área clicável
+      continua sendo a mesma de antes. */}
+  <div class="service-item" data-reveal style={`--reveal-delay: ${base + 40}ms`}>
+    <span class="service-number" aria-hidden="true">{number}</span>
+    <div class="service-body">
+      <h3 class="service-title">
+        <a
+          class="service-link"
+          href={whatsappHref(service.whatsappMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {service.title}
+        </a>
+      </h3>
+      <p class="service-desc">{service.description}</p>
+    </div>
     <span class="service-arrow" aria-hidden="true">→</span>
-  </a>
+  </div>
 </div>
 
 <style>
@@ -43,7 +49,8 @@ const base = index * 80;
     flex-direction: column;
   }
 
-  .service-link {
+  .service-item {
+    position: relative;
     display: flex;
     gap: 1.6rem;
     align-items: baseline;
@@ -51,7 +58,7 @@ const base = index * 80;
     transition: background-color 0.2s linear;
   }
 
-  .service-link:hover {
+  .service-item:hover {
     background: var(--color-tag-bg);
   }
 
@@ -69,7 +76,7 @@ const base = index * 80;
   }
 
   .service-title {
-    display: block;
+    margin: 0;
     font-family: var(--font-heading);
     font-size: 1.2rem;
     font-weight: 500;
@@ -77,8 +84,14 @@ const base = index * 80;
     color: var(--color-text);
   }
 
+  /* Estica a área de clique do link por cima da linha inteira. */
+  .service-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
   .service-desc {
-    display: block;
     font-size: 0.95rem;
     color: var(--color-text-muted);
     margin-top: 0.45rem;
@@ -93,17 +106,17 @@ const base = index * 80;
     transition: color 0.2s linear, transform 0.2s cubic-bezier(0.2, 0, 0, 1);
   }
 
-  .service-link:hover .service-arrow {
+  .service-item:hover .service-arrow {
     color: var(--color-primary);
     transform: translateX(4px);
   }
 
-  .service-link:hover .service-number {
+  .service-item:hover .service-number {
     color: var(--color-primary-hover);
   }
 
   @media (max-width: 639px) {
-    .service-link {
+    .service-item {
       gap: 1rem;
     }
 
@@ -114,7 +127,7 @@ const base = index * 80;
 
   @media (prefers-reduced-motion: reduce) {
     .service-arrow,
-    .service-link {
+    .service-item {
       transition: none;
     }
   }

@@ -20,11 +20,13 @@ const host = new URL(project.url).hostname.replace(/^www\./, '');
   data-reveal
   style={`--reveal-delay: ${index * 90}ms`}
 >
-  <a
+  {/* A capa deixou de ser um link próprio: antes o card tinha dois
+      links para o mesmo destino, e o da capa se anunciava como
+      "Captura de tela do site X" — que descreve a imagem, não para
+      onde leva. Agora o link vive no título e se estica por cima do
+      card inteiro, então a capa continua clicável. */}
+  <div
     class="project-thumb"
-    href={project.url}
-    target="_blank"
-    rel="noopener noreferrer"
     style={!project.image ? `background-image: ${gradient}` : undefined}
   >
     {project.image ? (
@@ -46,23 +48,26 @@ const host = new URL(project.url).hostname.replace(/^www\./, '');
     <span class="mira mira-br" aria-hidden="true"></span>
 
     {featured && <span class="project-featured-tag">Destaque</span>}
-  </a>
+  </div>
 
   <div class="project-body">
     <span class="tag">{project.category}</span>
     <div class="project-head">
-      <h3>{project.name}</h3>
+      <h3>
+        <a class="project-link" href={project.url} target="_blank" rel="noopener noreferrer">
+          {project.name}
+        </a>
+      </h3>
       <span class="project-host">{host}</span>
     </div>
     <p>{project.tagline}</p>
-    <a class="project-link" href={project.url} target="_blank" rel="noopener noreferrer">
-      Visitar site →
-    </a>
+    <span class="project-cta" aria-hidden="true">Visitar site →</span>
   </div>
 </article>
 
 <style>
   .project-card {
+    position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -216,17 +221,31 @@ const host = new URL(project.url).hostname.replace(/^www\./, '');
     line-height: 1.6;
   }
 
-  .project-link {
+  .project-head h3 a {
+    color: inherit;
+  }
+
+  /* Estica a área de clique do link por cima do card inteiro. */
+  .project-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+  }
+
+  .project-card:hover .project-head h3 a {
+    color: var(--color-primary-text);
+  }
+
+  /* Pista visual, não link: o card inteiro já é clicável, e um segundo
+     link para o mesmo destino só repetiria o item na navegação. */
+  .project-cta {
     margin-top: auto;
     padding-top: 0.9rem;
     font-family: var(--font-heading);
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--color-primary-text);
-  }
-
-  .project-link:hover {
-    color: var(--color-primary-hover);
   }
 
   @media (prefers-reduced-motion: reduce) {
