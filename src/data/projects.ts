@@ -3,6 +3,7 @@ import prayersImage from '../assets/images/projects/prayers.png';
 import angeliAcessoriosImage from '../assets/images/projects/angeli-acessorios.png';
 import aconselhaMaisImage from '../assets/images/projects/aconselha-mais.png';
 import atividataImage from '../assets/images/projects/atividata.png';
+import brownieDaGioImage from '../assets/images/projects/brownie-da-gio.png';
 
 export interface Project {
   slug: string;
@@ -55,5 +56,15 @@ export const projects: Project[] = [
     accentFrom: '#3f5a73',
     accentTo: '#6d8aa6',
     image: atividataImage,
+  },
+  {
+    slug: 'brownie-da-gio',
+    name: 'Brownie da Gio',
+    tagline: 'Catálogo de brownies artesanais com carrinho e pedido pelo WhatsApp',
+    category: 'Catálogo com venda via WhatsApp',
+    url: 'https://brownie-da-gio.vercel.app',
+    accentFrom: '#5c3524',
+    accentTo: '#d98fa8',
+    image: brownieDaGioImage,
   },
 ];
