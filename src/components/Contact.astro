@@ -2,56 +2,44 @@
 import { whatsappHref } from '../data/site';
 ---
 
-<section id="contato" class="section contact">
-  <div class="contact-glow" aria-hidden="true"></div>
-  <div class="container contact-inner" data-reveal>
-    <span class="eyebrow">Contato</span>
-    <h2>Vamos conversar sobre o seu projeto?</h2>
-    <p>
-      Me chame no WhatsApp e me conte a sua ideia — respondo rápido e sem compromisso.
-    </p>
-    <a class="btn btn-whatsapp" href={whatsappHref()} target="_blank" rel="noopener noreferrer">
-      Falar no WhatsApp
-    </a>
+<section id="contato" class="section">
+  <div class="container">
+    <div class="contact-block" data-reveal>
+      <div class="contact-copy">
+        <span class="eyebrow">Contato</span>
+        <h2>Vamos conversar sobre o seu projeto?</h2>
+        <p>Me chame no WhatsApp e me conte a sua ideia — respondo rápido e sem compromisso.</p>
+      </div>
+      <a class="btn btn-whatsapp" href={whatsappHref()} target="_blank" rel="noopener noreferrer">
+        Falar no WhatsApp →
+      </a>
+    </div>
   </div>
 </section>
 
 <style>
-  .contact {
-    position: relative;
-    overflow: hidden;
+  /* A bordered plate instead of the old radial glow: in this system
+     depth comes from hairlines, not from blurred light. */
+  .contact-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
   }
 
-  .contact-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 900px;
-    max-width: 160vw;
-    height: 900px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(37, 211, 102, 0.14) 0%, rgba(217, 142, 74, 0.08) 45%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+  .contact-copy {
+    max-width: 46ch;
   }
 
-  .contact-inner {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 620px;
+  .contact-copy h2 {
+    margin-block: 0.4rem 0.75rem;
   }
 
-  .contact-inner h2 {
-    margin-block: 0.75rem 1rem;
-  }
-
-  .contact-inner p {
-    font-size: 1.1rem;
-    margin-inline: auto;
-  }
-
-  .contact-inner .btn {
-    margin-top: 2rem;
+  .contact-copy p {
+    font-size: 1.02rem;
   }
 </style>

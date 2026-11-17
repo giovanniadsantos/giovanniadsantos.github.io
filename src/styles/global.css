@@ -7,53 +7,60 @@
                  no longer fits on one line, so it becomes the drawer)
    Any new breakpoint should reuse one of these numbers. */
 
-/* ---------- Design tokens ---------- */
+/* ---------- Design tokens ----------
+   Two sides of one technical system:
+     light = "papel técnico" — graph paper, ink, deep teal
+     dark  = "blueprint"     — navy ground, cyan lines
+   Same type, same grid, same components; only the tokens move. */
 :root {
-  /* Warm, human palette */
-  --color-bg: #fbf6ef;
-  --color-bg-alt: #f3e9da;
+  --color-bg: #f2f1ec;
+  --color-bg-alt: #e9e7df;
   --color-surface: #ffffff;
-  --color-text: #3a2e27;
-  --color-text-muted: #6b5d53;
+  --color-text: #1c1b16;
+  --color-text-muted: #5f5c52;
 
-  --color-primary: #c1622d;
+  --color-primary: #0b6a5b;
   /* Hover/emphasis step of the primary. Named for its ROLE, not its
      luminance: in dark mode it resolves lighter, not darker. */
-  --color-primary-hover: #9c4c21;
-  /* Primary tuned for small text — the base primary only reaches
-     ~3.9:1 on the page background, which fails WCAG AA. */
-  --color-primary-text: #9c4c21;
-  --color-accent: #d98e4a;
-  --color-secondary: #6e8b6b;
+  --color-primary-hover: #084f43;
+  /* Primary tuned for small text. Kept as its own token because the
+     two sides need different steps to clear WCAG AA on their ground. */
+  --color-primary-text: #0b6a5b;
+  --color-accent: #0b6a5b;
+  --color-secondary: #2e5a86;
 
   /* Darkened from the #25d366 brand green so that white button labels
      clear 4.5:1. Still unmistakably WhatsApp. */
   --color-whatsapp: #0e8038;
   --color-whatsapp-dark: #0a6b2f;
 
-  --color-border: #e7d9c6;
-  --color-header-bg: rgba(251, 246, 239, 0.9);
-  --color-tag-bg: #f3e9da;
-  --color-badge-bg: #9c4c21;
+  --color-border: #d8d5ca;
+  --color-rule: #c4c0b3;
+  --color-header-bg: rgba(242, 241, 236, 0.92);
+  --color-tag-bg: #e9e7df;
+  --color-badge-bg: #0b6a5b;
   --color-badge-text: #ffffff;
-  --color-focus: #c1622d;
+  --color-focus: #0b6a5b;
 
-  --font-heading: 'Fraunces', Georgia, serif;
-  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* The drawing grid under the whole page. */
+  --grid-fine: rgba(28, 27, 22, 0.045);
+  --grid-coarse: rgba(28, 27, 22, 0.08);
 
-  --radius-sm: 6px;
-  --radius-md: 14px;
-  --radius-lg: 24px;
-  --radius-pill: 999px;
+  --font-heading: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --shadow-soft: 0 8px 24px rgba(58, 46, 39, 0.08);
-  --shadow-lift: 0 16px 40px rgba(58, 46, 39, 0.14);
+  /* Technical drawing has no rounded corners and no soft shadows:
+     depth comes from hairlines, not blur. Kept as tokens so the few
+     places that still want a radius stay consistent. */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 0px;
 
-  --container-width: 1120px;
+  --shadow-soft: none;
+  --shadow-lift: none;
 
-  /* Hand-drawn underline behind the hero highlight. Carried as a token
-     so the stroke can follow the accent colour per theme. */
-  --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 12 Q 20 2 40 12 T 80 12 T 120 12 T 160 12 T 198 12' stroke='%23d98e4a' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  --container-width: 1180px;
 
   /* Used as a mask, so the drawn colour is irrelevant — only alpha. */
   --check-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.6a8.4 8.4 0 1 0 0 16.8 8.4 8.4 0 0 0 0-16.8Zm4.05 6.35-4.9 4.9a1 1 0 0 1-1.42 0L5.95 10.9a1 1 0 1 1 1.42-1.42l1.07 1.08 4.19-4.2a1 1 0 0 1 1.42 1.42Z' fill='%23000'/%3E%3C/svg%3E");
@@ -61,72 +68,68 @@
   color-scheme: light;
 }
 
-/* Dark palette: same warm, handcrafted character, inverted luminance.
-   Applies automatically by system preference, or explicitly via
-   [data-theme] once the visitor picks a side with the toggle.
+/* Blueprint. Applies automatically by system preference, or explicitly
+   via [data-theme] once the visitor picks a side with the toggle.
    Kept in sync with the [data-theme='dark'] block below. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #211a15;
-    --color-bg-alt: #2b221b;
-    --color-surface: #322822;
-    --color-text: #f3ecdf;
-    --color-text-muted: #c7b6a3;
+    --color-bg: #0a1a2f;
+    --color-bg-alt: #0d2340;
+    --color-surface: #0e2340;
+    --color-text: #dce9f7;
+    --color-text-muted: #8aa4c4;
 
-    --color-primary: #e2874a;
-    --color-primary-hover: #f0a868;
-    --color-primary-text: #f0a868;
-    --color-accent: #f2b877;
-    --color-secondary: #9dbd97;
+    --color-primary: #4fd8f5;
+    --color-primary-hover: #8aeaff;
+    --color-primary-text: #4fd8f5;
+    --color-accent: #4fd8f5;
+    --color-secondary: #7fa8ff;
 
-    --color-border: #4a3b2e;
-    --color-header-bg: rgba(33, 26, 21, 0.85);
-    /* Lighter than --color-surface so the pill stays legible on a card;
-       the light-mode value would sink into the card background. */
-    --color-tag-bg: #43352b;
-    --color-badge-bg: #f2b877;
-    --color-badge-text: #211a15;
-    --color-focus: #f2b877;
-    --shot-dim: brightness(0.86) saturate(0.95);
+    --color-border: #1e3a5c;
+    --color-rule: #2e5a86;
+    --color-header-bg: rgba(10, 26, 47, 0.85);
+    --color-tag-bg: #16304f;
+    --color-badge-bg: #4fd8f5;
+    --color-badge-text: #06182c;
+    --color-focus: #4fd8f5;
 
-    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
-    --shadow-lift: 0 18px 44px rgba(0, 0, 0, 0.5);
+    --grid-fine: rgba(79, 216, 245, 0.05);
+    --grid-coarse: rgba(79, 216, 245, 0.11);
 
-    --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 12 Q 20 2 40 12 T 80 12 T 120 12 T 160 12 T 198 12' stroke='%23f2b877' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    --shot-dim: brightness(0.82) saturate(0.85);
 
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --color-bg: #211a15;
-  --color-bg-alt: #2b221b;
-  --color-surface: #322822;
-  --color-text: #f3ecdf;
-  --color-text-muted: #c7b6a3;
+  --color-bg: #0a1a2f;
+  --color-bg-alt: #0d2340;
+  --color-surface: #0e2340;
+  --color-text: #dce9f7;
+  --color-text-muted: #8aa4c4;
 
-  --color-primary: #e2874a;
-  --color-primary-hover: #f0a868;
-  --color-primary-text: #f0a868;
-  --color-accent: #f2b877;
-  --color-secondary: #9dbd97;
+  --color-primary: #4fd8f5;
+  --color-primary-hover: #8aeaff;
+  --color-primary-text: #4fd8f5;
+  --color-accent: #4fd8f5;
+  --color-secondary: #7fa8ff;
 
-  --color-border: #4a3b2e;
-  --color-header-bg: rgba(33, 26, 21, 0.85);
-  --color-tag-bg: #43352b;
-  --color-badge-bg: #f2b877;
-  --color-badge-text: #211a15;
-  --color-focus: #f2b877;
-  --shot-dim: brightness(0.86) saturate(0.95);
+  --color-border: #1e3a5c;
+  --color-rule: #2e5a86;
+  --color-header-bg: rgba(10, 26, 47, 0.85);
+  --color-tag-bg: #16304f;
+  --color-badge-bg: #4fd8f5;
+  --color-badge-text: #06182c;
+  --color-focus: #4fd8f5;
 
-  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-lift: 0 18px 44px rgba(0, 0, 0, 0.5);
+  --grid-fine: rgba(79, 216, 245, 0.05);
+  --grid-coarse: rgba(79, 216, 245, 0.11);
 
-  --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 12 Q 20 2 40 12 T 80 12 T 120 12 T 160 12 T 198 12' stroke='%23f2b877' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  --shot-dim: brightness(0.82) saturate(0.85);
 
   color-scheme: dark;
 }
-
 
 /* ---------- Reset ---------- */
 *,
@@ -172,46 +175,24 @@ button {
 }
 
 /* ---------- Base ---------- */
+/* The drawing grid sits on the body and scrolls with the page, like
+   the sheet it is printed on. Sections no longer alternate background
+   fills — they are separated by hairlines instead — so the grid runs
+   unbroken from top to bottom. */
 body {
   position: relative;
-  background: var(--color-bg);
+  background-color: var(--color-bg);
+  background-image: linear-gradient(var(--grid-fine) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-fine) 1px, transparent 1px),
+    linear-gradient(var(--grid-coarse) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-coarse) 1px, transparent 1px);
+  background-size: 16px 16px, 16px 16px, 96px 96px, 96px 96px;
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 1.0625rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.35s ease, color 0.35s ease;
-}
-
-/* Subtle paper-grain atmosphere over the whole page.
-   Painted ABOVE the content (not below it): as a backdrop it was
-   covered by every section that sets its own background, so the
-   texture only landed on the transparent sections and the page read
-   as two different materials. pointer-events:none keeps it inert.
-   Multiply reads as texture on a light ground; on the dark palette it
-   would vanish into the near-black background, so it flips to a
-   soft-light speckle there instead. */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) body::after {
-    opacity: 0.06;
-    mix-blend-mode: soft-light;
-  }
-}
-
-:root[data-theme='dark'] body::after {
-  opacity: 0.06;
-  mix-blend-mode: soft-light;
 }
 
 body > * {
@@ -223,7 +204,6 @@ body > * {
 :focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 h1,
@@ -232,21 +212,24 @@ h3,
 h4 {
   font-family: var(--font-heading);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   color: var(--color-text);
 }
 
 h1 {
-  font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
-  font-weight: 500;
+  font-size: clamp(2.1rem, 3.4vw + 1rem, 4rem);
+  letter-spacing: -0.045em;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  font-size: clamp(1.6rem, 1.8vw + 1rem, 2.3rem);
 }
 
 h3 {
-  font-size: 1.375rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 p {
@@ -262,16 +245,20 @@ p {
 }
 
 .section {
-  padding-block: clamp(3.5rem, 8vw, 6.5rem);
+  padding-block: clamp(3rem, 6vw, 4.5rem);
+  border-top: 1px solid var(--color-border);
 }
 
+/* Kept for markup compatibility: in this system the separation between
+   sections is a hairline, not a change of ground, so the grid stays
+   continuous. */
 .section-alt {
-  background: var(--color-bg-alt);
+  background: transparent;
 }
 
 .section-header {
   max-width: 640px;
-  margin-bottom: clamp(2rem, 5vw, 3rem);
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
 }
 
 .section-header.center {
@@ -279,20 +266,26 @@ p {
   text-align: center;
 }
 
+/* Section label, set as a drawing annotation: "— SERVIÇOS 4" */
 .eyebrow {
   display: inline-block;
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-primary-text);
+  color: var(--color-text-muted);
   margin-bottom: 0.75rem;
+}
+
+.eyebrow::before {
+  content: '— ';
+  color: var(--color-primary-text);
 }
 
 .section-header p {
   margin-top: 0.75rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .grid {
@@ -306,44 +299,42 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.9rem 1.75rem;
+  padding: 0.95rem 1.65rem;
   border-radius: var(--radius-pill);
-  font-weight: 700;
-  font-size: 1rem;
-  border: 2px solid transparent;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+  transition: background-color 0.18s linear, border-color 0.18s linear, color 0.18s linear;
   white-space: nowrap;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
 }
 
 .btn-whatsapp {
   background: var(--color-whatsapp);
   color: #ffffff;
-  box-shadow: var(--shadow-soft);
+  border-color: var(--color-whatsapp);
 }
 
 .btn-whatsapp:hover {
   background: var(--color-whatsapp-dark);
-  box-shadow: var(--shadow-lift);
+  border-color: var(--color-whatsapp-dark);
 }
 
 .btn-outline {
   background: transparent;
-  border-color: var(--color-border);
+  border-color: var(--color-rule);
   color: var(--color-text);
 }
 
 .btn-outline:hover {
   border-color: var(--color-primary);
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .btn-sm {
-  padding: 0.6rem 1.25rem;
-  font-size: 0.9rem;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.82rem;
 }
 
 /* ---------- Cards ---------- */
@@ -356,25 +347,109 @@ p {
 
 .tag {
   display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 0.3rem 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 0.32rem 0.7rem;
   border-radius: var(--radius-pill);
   background: var(--color-tag-bg);
   color: var(--color-primary-text);
 }
 
-/* ---------- Divider ---------- */
-.divider {
-  display: block;
-  line-height: 0;
-  width: 100%;
+/* ---------- Motion ----------
+   House rule for this system: movement reads as an instrument — a
+   plotter drawing, a gauge settling, a terminal printing. Linear or
+   near-linear easing, short durations, never any overshoot. */
+@keyframes ga-tracar {
+  from {
+    stroke-dashoffset: 46;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-.divider svg {
-  display: block;
-  width: 100%;
-  height: auto;
+@keyframes ga-assentar {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ga-surgir {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ga-medir {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes ga-travar {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes ga-piscar {
+  0%,
+  48% {
+    opacity: 1;
+  }
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Entrance primitives, driven purely by CSS so they start at first
+   paint and still run with JS unavailable. */
+.anim-assentar {
+  animation: ga-assentar 0.5s cubic-bezier(0.2, 0, 0, 1) both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+
+.anim-surgir {
+  animation: ga-surgir 0.4s linear both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+
+.anim-tracar {
+  animation: ga-tracar 0.42s linear both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+
+.anim-medir {
+  animation: ga-medir 0.38s cubic-bezier(0.2, 0, 0, 1) both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+
+.anim-travar {
+  animation: ga-travar 0.2s linear both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+
+.anim-piscar {
+  animation: ga-piscar 1.1s steps(1, end) infinite;
 }
 
 /* ---------- Scroll reveal ----------
@@ -383,8 +458,9 @@ p {
    run scripts — leaves the whole page at opacity 0. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(20px);
+  transition: opacity 0.55s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.55s cubic-bezier(0.2, 0, 0, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
@@ -393,11 +469,49 @@ p {
   transform: translateY(0);
 }
 
+/* A hairline that draws itself left-to-right when it scrolls in. It
+   rides the same observer as [data-reveal], so it overrides the fade
+   those elements get and swaps in a horizontal wipe instead. */
+.rule-draw {
+  height: 1px;
+  background: var(--color-border);
+  transform-origin: left center;
+}
+
+.js [data-reveal].rule-draw {
+  opacity: 1;
+  transform: scaleX(0);
+  transition: transform 0.45s cubic-bezier(0.2, 0, 0, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].rule-draw.is-visible {
+  transform: scaleX(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal] {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .js [data-reveal].rule-draw {
+    transform: none;
+    transition: none;
+  }
+
+  .anim-assentar,
+  .anim-surgir,
+  .anim-tracar,
+  .anim-medir,
+  .anim-travar,
+  .anim-piscar {
+    animation: none;
+  }
+
+  .anim-tracar {
+    stroke-dashoffset: 0;
   }
 }
 

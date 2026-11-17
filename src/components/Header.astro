@@ -12,7 +12,11 @@ const navLinks = [
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href="#top" class="wordmark">Giovanni Angelo</a>
+    <a href="#top" class="wordmark">
+      giovanni<span class="wordmark-dot">.</span>angelo<span
+        class="wordmark-cursor anim-piscar"
+        aria-hidden="true"></span>
+    </a>
 
     <div class="header-right">
       <nav class="site-nav" id="site-nav">
@@ -83,10 +87,25 @@ const navLinks = [
   }
 
   .wordmark {
+    display: inline-flex;
+    align-items: center;
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: 0.95rem;
     font-weight: 600;
+    letter-spacing: -0.02em;
     color: var(--color-text);
+  }
+
+  .wordmark-dot {
+    color: var(--color-primary);
+  }
+
+  .wordmark-cursor {
+    width: 7px;
+    height: 15px;
+    margin-left: 5px;
+    background: var(--color-primary);
+    display: inline-block;
   }
 
   .header-right {
@@ -102,11 +121,11 @@ const navLinks = [
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: 50%;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 0;
     border: 1px solid var(--color-border);
-    background: var(--color-bg-alt);
+    background: transparent;
     color: var(--color-text);
     transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.15s ease;
   }
@@ -208,8 +227,9 @@ const navLinks = [
      WhatsApp button nested in the nav and, being more specific than
      `.btn-whatsapp`, overrode its white label with muted brown. */
   .site-nav ul a {
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 0.82rem;
     color: var(--color-text-muted);
   }
 

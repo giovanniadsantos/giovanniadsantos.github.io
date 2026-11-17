@@ -5,35 +5,38 @@ import ServiceCard from './ServiceCard.astro';
 
 <section id="servicos" class="section">
   <div class="container">
-    <div class="section-header center" data-reveal>
-      <span class="eyebrow">Serviços</span>
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Serviços <span class="eyebrow-count">{services.length}</span></span>
       <h2>O que eu posso construir para você</h2>
-      <p>Do primeiro contato à entrega, cada projeto é pensado para resolver um problema real do seu negócio ou comunidade.</p>
+      <p>
+        Do primeiro contato à entrega, cada projeto é pensado para resolver um problema real do seu
+        negócio ou comunidade.
+      </p>
     </div>
 
-    <div class="grid services-grid">
+    <div class="services-list">
       {services.map((service, i) => (
         <ServiceCard service={service} index={i} />
       ))}
+      <div
+        class="rule-draw"
+        data-reveal
+        style={`--reveal-delay: ${services.length * 80}ms`}
+        aria-hidden="true"
+      >
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .services-grid {
-    margin-top: 1rem;
-    border-top: 1px solid var(--color-border);
+  .services-list {
+    display: flex;
+    flex-direction: column;
   }
 
-  .services-grid > :global(.service-card) {
-    border-left: 1px solid var(--color-border);
-    padding-left: 1.5rem;
-  }
-
-  @media (max-width: 640px) {
-    .services-grid > :global(.service-card) {
-      border-left: none;
-      padding-left: 0.5rem;
-    }
+  .eyebrow-count {
+    color: var(--color-rule);
+    margin-left: 0.3rem;
   }
 </style>

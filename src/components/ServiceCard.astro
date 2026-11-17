@@ -1,6 +1,5 @@
 ---
 import { whatsappHref } from '../data/site';
-import { serviceIcons } from '../data/service-icons';
 import type { Service } from '../data/services';
 
 interface Props {
@@ -9,76 +8,114 @@ interface Props {
 }
 
 const { service, index = 0 } = Astro.props;
+const number = String(index + 1).padStart(2, '0');
+const base = index * 80;
 ---
 
-<article class="service-card" data-reveal style={`--reveal-delay: ${index * 90}ms`}>
-  <span class="service-icon" aria-hidden="true">
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.75"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      set:html={serviceIcons[service.icon]}
-    />
-  </span>
-  <h3>{service.title}</h3>
-  <p>{service.description}</p>
-  <a class="service-link" href={whatsappHref(service.whatsappMessage)} target="_blank" rel="noopener noreferrer">
-    Falar sobre este serviço →
+<div class="service-row">
+  <div
+    class="rule-draw"
+    data-reveal
+    style={`--reveal-delay: ${base}ms`}
+    aria-hidden="true"
+  >
+  </div>
+  <a
+    class="service-link"
+    href={whatsappHref(service.whatsappMessage)}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-reveal
+    style={`--reveal-delay: ${base + 40}ms`}
+  >
+    <span class="service-number">{number}</span>
+    <span class="service-body">
+      <span class="service-title">{service.title}</span>
+      <span class="service-desc">{service.description}</span>
+    </span>
+    <span class="service-arrow" aria-hidden="true">→</span>
   </a>
-</article>
+</div>
 
 <style>
-  .service-card {
-    position: relative;
-    padding: 1.75rem 0.5rem;
+  .service-row {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2.25rem;
-    height: 2px;
-    background: var(--color-primary);
-    transition: width 0.25s ease;
-  }
-
-  .service-card:hover::before {
-    width: 100%;
-  }
-
-  .service-icon {
-    display: inline-flex;
-    width: 2.75rem;
-    height: 2.75rem;
-    color: var(--color-primary);
-    margin-top: 0.5rem;
-  }
-
-  .service-icon svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  .service-card h3 {
-    margin-top: 0.25rem;
   }
 
   .service-link {
-    margin-top: auto;
-    padding-top: 0.75rem;
-    font-weight: 700;
-    color: var(--color-primary-text);
+    display: flex;
+    gap: 1.6rem;
+    align-items: baseline;
+    padding: 1.4rem 0;
+    transition: background-color 0.2s linear;
   }
 
   .service-link:hover {
+    background: var(--color-tag-bg);
+  }
+
+  .service-number {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    color: var(--color-primary-text);
+    width: 2.1rem;
+    flex-shrink: 0;
+  }
+
+  .service-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .service-title {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+  }
+
+  .service-desc {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin-top: 0.45rem;
+    line-height: 1.6;
+  }
+
+  .service-arrow {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--color-rule);
+    flex-shrink: 0;
+    transition: color 0.2s linear, transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .service-link:hover .service-arrow {
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+
+  .service-link:hover .service-number {
     color: var(--color-primary-hover);
+  }
+
+  @media (max-width: 639px) {
+    .service-link {
+      gap: 1rem;
+    }
+
+    .service-number {
+      width: 1.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-arrow,
+    .service-link {
+      transition: none;
+    }
   }
 </style>

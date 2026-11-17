@@ -15,8 +15,8 @@ const isWide = (index: number) =>
 
 <section id="projetos" class="section section-alt">
   <div class="container">
-    <div class="section-header center" data-reveal>
-      <span class="eyebrow">Projetos</span>
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Projetos no ar <span class="eyebrow-count">{projects.length}</span></span>
       <h2>Alguns projetos que já coloquei no ar</h2>
       <p>Sites e sistemas reais, em uso hoje por comunidades e negócios.</p>
     </div>
@@ -35,6 +35,12 @@ const isWide = (index: number) =>
      project was left orphaned beside two empty columns. */
   .projects-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .eyebrow-count {
+    color: var(--color-rule);
+    margin-left: 0.3rem;
   }
 
   .projects-grid > :global(.project-card.is-wide) {

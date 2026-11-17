@@ -12,24 +12,48 @@ interface Props {
 
 const { project, index = 0, featured = false, wide = false } = Astro.props;
 const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accentTo})`;
+const host = new URL(project.url).hostname.replace(/^www\./, '');
 ---
 
 <article
   class:list={['card', 'project-card', { 'is-wide': wide }]}
   data-reveal
-  style={`--reveal-delay: ${index * 110}ms`}
+  style={`--reveal-delay: ${index * 90}ms`}
 >
-  <a class="project-thumb" href={project.url} target="_blank" rel="noopener noreferrer" style={!project.image ? `background-image: ${gradient}` : undefined}>
+  <a
+    class="project-thumb"
+    href={project.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={!project.image ? `background-image: ${gradient}` : undefined}
+  >
     {project.image ? (
-      <Image class="project-thumb-image" src={project.image} alt={`Captura de tela do site ${project.name}`} width={840} height={500} />
+      <Image
+        class="project-thumb-image"
+        src={project.image}
+        alt={`Captura de tela do site ${project.name}`}
+        width={840}
+        height={500}
+      />
     ) : (
       <span class="project-thumb-name">{project.name}</span>
     )}
+
+    {/* Mira: entra no hover no lugar do zoom. */}
+    <span class="mira mira-tl" aria-hidden="true"></span>
+    <span class="mira mira-tr" aria-hidden="true"></span>
+    <span class="mira mira-bl" aria-hidden="true"></span>
+    <span class="mira mira-br" aria-hidden="true"></span>
+
     {featured && <span class="project-featured-tag">Destaque</span>}
   </a>
+
   <div class="project-body">
     <span class="tag">{project.category}</span>
-    <h3>{project.name}</h3>
+    <div class="project-head">
+      <h3>{project.name}</h3>
+      <span class="project-host">{host}</span>
+    </div>
     <p>{project.tagline}</p>
     <a class="project-link" href={project.url} target="_blank" rel="noopener noreferrer">
       Visitar site →
@@ -42,6 +66,11 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: border-color 0.25s linear;
+  }
+
+  .project-card:hover {
+    border-color: var(--color-primary);
   }
 
   .project-thumb {
@@ -51,15 +80,7 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
     justify-content: center;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-  }
-
-  .project-thumb:not(:has(.project-thumb-image))::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.15;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    border-bottom: 1px solid var(--color-border);
   }
 
   .project-thumb-image {
@@ -72,43 +93,86 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
     /* --shot-dim is set per theme in global.css: these are screenshots
        of light-themed sites and they glare against the dark page. */
     filter: var(--shot-dim, none);
-    transition: transform 0.4s ease, filter 0.4s ease;
+    transition: filter 0.3s linear;
   }
 
-  .project-thumb:hover .project-thumb-image {
-    transform: scale(1.03);
+  .project-card:hover .project-thumb-image {
     filter: none;
+  }
+
+  /* ---------- mira ---------- */
+  .mira {
+    position: absolute;
+    z-index: 2;
+    width: 15px;
+    height: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s linear, transform 0.22s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .mira-tl {
+    top: 10px;
+    left: 10px;
+    border-top: 1.5px solid var(--color-primary);
+    border-left: 1.5px solid var(--color-primary);
+    transform: translate(7px, 7px);
+  }
+
+  .mira-tr {
+    top: 10px;
+    right: 10px;
+    border-top: 1.5px solid var(--color-primary);
+    border-right: 1.5px solid var(--color-primary);
+    transform: translate(-7px, 7px);
+  }
+
+  .mira-bl {
+    bottom: 10px;
+    left: 10px;
+    border-bottom: 1.5px solid var(--color-primary);
+    border-left: 1.5px solid var(--color-primary);
+    transform: translate(7px, -7px);
+  }
+
+  .mira-br {
+    bottom: 10px;
+    right: 10px;
+    border-bottom: 1.5px solid var(--color-primary);
+    border-right: 1.5px solid var(--color-primary);
+    transform: translate(-7px, -7px);
+  }
+
+  .project-card:hover .mira {
+    opacity: 1;
+    transform: translate(0, 0);
   }
 
   .project-thumb-name {
     position: relative;
     font-family: var(--font-heading);
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 500;
     color: #ffffff;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   }
 
   .project-featured-tag {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    font-family: var(--font-heading);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.35rem 0.8rem;
-    border-radius: var(--radius-pill);
-    /* Always a light chip over the screenshot/gradient thumbnail, in
-       both themes — so its text stays a fixed dark terracotta rather
-       than a theme-aware token (which turns light in dark mode and
-       would disappear against this white pill). */
-    background: rgba(255, 255, 255, 0.88);
-    color: #9c4c21;
+    padding: 0.4rem 0.8rem;
+    background: var(--color-badge-bg);
+    color: var(--color-badge-text);
   }
 
   .project-body {
-    padding: 1.75rem;
+    padding: 1.4rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -123,18 +187,54 @@ const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accen
     align-self: flex-start;
   }
 
-  .project-body h3 {
-    margin-top: 0.5rem;
+  .project-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.4rem;
+  }
+
+  .project-head h3 {
+    margin: 0;
+  }
+
+  .project-host {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), color 0.25s linear;
+  }
+
+  .project-card:hover .project-host {
+    transform: translateX(-4px);
+    color: var(--color-primary-text);
+  }
+
+  .project-body p {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .project-link {
     margin-top: auto;
-    padding-top: 0.75rem;
-    font-weight: 700;
+    padding-top: 0.9rem;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--color-primary-text);
   }
 
   .project-link:hover {
     color: var(--color-primary-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mira,
+    .project-host,
+    .project-thumb-image,
+    .project-card {
+      transition: none;
+    }
   }
 </style>
