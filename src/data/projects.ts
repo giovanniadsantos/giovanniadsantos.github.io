@@ -16,7 +16,20 @@ export interface Project {
   image?: ImageMetadata;
 }
 
+/* A ordem desta lista comanda a página inteira: o primeiro item é o
+   destaque (ocupa a linha toda da grade e abre o carrossel do hero) e
+   os demais pareiam de dois em dois. */
 export const projects: Project[] = [
+  {
+    slug: 'atividata',
+    name: 'Atividata',
+    tagline: 'Lista de tarefas em texto puro para profissionais e empreendedores solo',
+    category: 'Sistemas e ferramentas sob medida',
+    url: 'https://atividata.app.br',
+    accentFrom: '#3f5a73',
+    accentTo: '#6d8aa6',
+    image: atividataImage,
+  },
   {
     slug: 'prayers',
     name: 'Prayers',
@@ -26,16 +39,6 @@ export const projects: Project[] = [
     accentFrom: '#c1622d',
     accentTo: '#d98e4a',
     image: prayersImage,
-  },
-  {
-    slug: 'angeli-acessorios',
-    name: 'Angeli Acessórios',
-    tagline: 'Catálogo online com venda pelo WhatsApp para o nicho de artesanato',
-    category: 'Catálogo com venda via WhatsApp',
-    url: 'https://angeliacessorios.com.br',
-    accentFrom: '#6e8b6b',
-    accentTo: '#9cb199',
-    image: angeliAcessoriosImage,
   },
   {
     slug: 'aconselha-mais',
@@ -48,14 +51,14 @@ export const projects: Project[] = [
     image: aconselhaMaisImage,
   },
   {
-    slug: 'atividata',
-    name: 'Atividata',
-    tagline: 'Lista de tarefas em texto puro para profissionais e empreendedores solo',
-    category: 'Sistemas e ferramentas sob medida',
-    url: 'https://atividata.app.br',
-    accentFrom: '#3f5a73',
-    accentTo: '#6d8aa6',
-    image: atividataImage,
+    slug: 'angeli-acessorios',
+    name: 'Angeli Acessórios',
+    tagline: 'Catálogo online com venda pelo WhatsApp para o nicho de artesanato',
+    category: 'Catálogo com venda via WhatsApp',
+    url: 'https://angeliacessorios.com.br',
+    accentFrom: '#6e8b6b',
+    accentTo: '#9cb199',
+    image: angeliAcessoriosImage,
   },
   {
     slug: 'brownie-da-gio',
