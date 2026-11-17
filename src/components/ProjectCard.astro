@@ -6,13 +6,19 @@ interface Props {
   project: Project;
   index?: number;
   featured?: boolean;
+  /** Runs the card across the full grid row (set by Projects.astro). */
+  wide?: boolean;
 }
 
-const { project, index = 0, featured = false } = Astro.props;
+const { project, index = 0, featured = false, wide = false } = Astro.props;
 const gradient = `linear-gradient(135deg, ${project.accentFrom}, ${project.accentTo})`;
 ---
 
-<article class="card project-card" data-reveal style={`--reveal-delay: ${index * 110}ms`}>
+<article
+  class:list={['card', 'project-card', { 'is-wide': wide }]}
+  data-reveal
+  style={`--reveal-delay: ${index * 110}ms`}
+>
   <a class="project-thumb" href={project.url} target="_blank" rel="noopener noreferrer" style={!project.image ? `background-image: ${gradient}` : undefined}>
     {project.image ? (
       <Image class="project-thumb-image" src={project.image} alt={`Captura de tela do site ${project.name}`} width={840} height={500} />

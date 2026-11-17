@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import prayersImage from '../assets/images/projects/prayers.png';
 import angeliAcessoriosImage from '../assets/images/projects/angeli-acessorios.png';
 import aconselhaMaisImage from '../assets/images/projects/aconselha-mais.png';
+import atividataImage from '../assets/images/projects/atividata.png';
 
 export interface Project {
   slug: string;
@@ -44,5 +45,15 @@ export const projects: Project[] = [
     accentFrom: '#9c4c21',
     accentTo: '#c1622d',
     image: aconselhaMaisImage,
+  },
+  {
+    slug: 'atividata',
+    name: 'Atividata',
+    tagline: 'Lista de tarefas em texto puro para profissionais e empreendedores solo',
+    category: 'Sistemas e ferramentas sob medida',
+    url: 'https://atividata.app.br',
+    accentFrom: '#3f5a73',
+    accentTo: '#6d8aa6',
+    image: atividataImage,
   },
 ];
