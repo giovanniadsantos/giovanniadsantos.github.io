@@ -13,7 +13,7 @@ const hostFor = (url: string) => new URL(url).hostname.replace(/^www\./, '');
    replaces text that is already there, so it survives JS being off. */
 const stats = [
   { value: '10+', label: 'anos com desenvolvimento' },
-  { value: '04', label: 'projetos no ar' },
+  { value: String(projects.length).padStart(2, '0'), label: 'projetos no ar' },
   { value: '1:1', label: 'você fala comigo' },
   { value: 'BR', label: 'atendimento remoto' },
 ];
