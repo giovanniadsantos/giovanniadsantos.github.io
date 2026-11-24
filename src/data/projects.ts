@@ -65,7 +65,7 @@ export const projects: Project[] = [
     name: 'Brownie da Gio',
     tagline: 'Catálogo de brownies artesanais com carrinho e pedido pelo WhatsApp',
     category: 'Catálogo com venda via WhatsApp',
-    url: 'https://brownie-da-gio.vercel.app',
+    url: 'https://browniedagio.com.br',
     accentFrom: '#5c3524',
     accentTo: '#d98fa8',
     image: brownieDaGioImage,
